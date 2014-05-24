@@ -1,0 +1,116 @@
+// General Styles
+'.tfWrapper': {
+	top: '6dp',
+	width: '260dp',
+	height: '36dp',
+	border: 1,
+	borderColor: 'gray'
+},
+'.centerHelper': {
+	top: '10dp',
+	height: Ti.UI.SIZE,
+	width: Ti.UI.SIZE,
+	layout: 'horizontal'
+},
+ScrollView: {
+	contentHeight: Ti.UI.SIZE,
+	contentWidth: Ti.UI.SIZE,
+	layout:'vertical'
+},
+TextField: {
+	autocapitalization: Ti.UI.TEXT_AUTOCAPITALIZATION_NONE,
+	borderStyle: Ti.UI.INPUT_BORDERSTYLE_NONE,
+	autocorrect: false,
+	top: '2dp',
+	left: '4dp',
+	bottom: '2dp',
+	right: '4dp',
+	paddingLeft: '4dp',
+	backgroundColor: 'white',
+	color : 'black'
+},
+
+// Default Button Style
+"Button" : {
+	top: '6dp',
+	width: '100dp',
+	height: '36dp',
+	font:{
+		fontSize: '13dp'
+	}
+},
+'Button[platform=ios]' : {
+	border: 1,
+	borderColor: 'gray'	
+},
+
+'#loginView' : {
+    width:Ti.UI.SIZE,
+    height:Ti.UI.SIZE,
+    top : '40dp',
+    layout:'vertical',
+    borderColor :'transparent'
+},
+'#loginText' :{
+    text : "Login to Parse",
+    font:{
+        fontSize:'20dp',
+        fontWeight : 'bold'
+    }
+},
+'#lvContainer' : {
+    top:'20dp',
+    width:'280dp',
+    height:Ti.UI.SIZE,
+    layout:'vertical',
+    borderColor :'orange',
+    borderWidth :0
+},
+'#doFacebookLoginBtn' : {
+	width : '120dp',
+	left : '15dp'
+},
+'#createAcctView' : {
+   width: Ti.UI.SIZE,
+   height: Ti.UI.SIZE,
+   top: '20dp',
+   layout: 'vertical',
+   backgroundColor: 'transparent'
+},
+'#accountText' :{
+   text: "Create Parse Account",
+   font:{
+    fontSize: '20dp',
+    fontWeight: 'bold'
+   }
+},
+'#cavContainer' : {
+   top: '20dp',
+   width: '280dp',
+   height: Ti.UI.SIZE,
+   layout: 'vertical',
+},
+'#acct_fname' : {
+   hintText: 'first name'
+},
+'#acct_lname' : {
+   hintText: 'last name'
+},
+'#acct_email' : {
+   hintText: 'email address'
+},
+'#acct_password' : {
+   passwordMask: true,
+   hintText: 'password'
+},
+'#acct_password_confirmation' : {
+   passwordMask: true,
+   hintText: 'password confirmation'
+},
+'#cancelCreateAcctBtn' : {
+   left: '10dp'
+},
+'#doCreateAcctBtn' : {
+   left: '0dp'
+}
+
