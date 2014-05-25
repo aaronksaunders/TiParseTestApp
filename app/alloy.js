@@ -9,3 +9,22 @@
 // object. For example:
 //
 // Alloy.Globals.someGlobalFunction = function(){};
+function isIOS7Plus()
+{
+  // iOS-specific test
+  if (Titanium.Platform.name == 'iPhone OS')
+  {
+    var version = Titanium.Platform.version.split(".");
+    var major = parseInt(version[0],10);
+
+    // Can only test this support on a 3.2+ device
+    if (major >= 7)
+    {
+      return true;
+    }
+  }
+  return false;
+}
+
+Alloy.Globals.iOS7 = isIOS7Plus();
+Alloy.Globals.theTop = (Alloy.Globals.iOS7 ? 20 : 0) + 'dp';
