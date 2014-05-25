@@ -5,4 +5,13 @@
 	width: Ti.UI.SIZE,
 	height: Ti.UI.SIZE,
 	color: "#000"
-} 
+},
+// Default Button Style
+"Button" : {
+  top: '6dp',
+  width: '100dp',
+  height: '36dp',
+  font:{
+    fontSize: '13dp'
+  }
+}

@@ -1,4 +1,16 @@
 <Alloy>
-	<Window class="container">
-	</Window>
+    <Window class="container">
+        <View id = 'indexContainer' layout='vertical'>
+            <Button id='logoutBtn'>Logout</Button>
+            <View id='userInformaton' layout='vertical' top='5dp'>
+              <Label id='un' textAlign='left'/>
+              <Label id='fb_un' textAlign='left'/>
+              <Label id='fn' textAlign='left'/>
+              <Label id='ln' textAlign='left'/>
+              <Label id='email' textAlign='left'/>
+              <Label id='phone' textAlign='left'/>
+              <Label id='isFB' textAlign='left'/>
+            </View>
+        </View>
+    </Window>
 </Alloy>

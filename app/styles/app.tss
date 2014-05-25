@@ -30,4 +30,8 @@
 },
 "Button[platform=android]" : {
   height : '42dp'
-}
+},
+'Button[platform=ios]' : {
+  border: 1,
+  borderColor: 'gray' 
+},
