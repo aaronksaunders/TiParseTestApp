@@ -3,15 +3,48 @@ Titanium Appcelerator Alloy TiParseTestApp
 
 Sample application demonstrating the integration on Parse Javascript API with Titanium Appcelerator.
 
-This example integrates Facebook account creation and the updating of the user account with information from the associated facebook account
+This example integrates Facebook account creation and the updating of the user account with information from the associated facebook account.
+
+###This utilizes the Parse-Appcelerator JavaScript Hack of Parse JavaScript SDK Version: 1.2.18
+
+The challenge continues to make Parse work with Appcelerator but I have made so adjustment to the original hack I created to get the solution more fully integrated with Appcelerator and include Facebook integration in the solution.
+
+It is the same basic premise as the original solution where we override existing objects in the parse library to leverage the Appcelerator HTTPClient and the Appcelerator Facebook integration. I have tested this solution with the integration IOS support for Facebook single sign on and with old way where you get the web UI for the login prompt.
+
+###Edits to the Parse Javascript API
+
+ Add this to line 1348 of Parse JavaScript SDK Version: 1.2.18
+ 
+      // Import Parse's local copy of underscore.
+      if (Titanium !== "undefined") {
+        console.log("Using titanium");
+ 
+        Parse._ = exports._.noConflict();
+        exports.Parse = Parse;
+      } else
+     
+     
+ Replace line 8576 of Parse JavaScript SDK Version: 1.2.18
+ 
+     Parse.User._registerAuthenticationProvider(FB.provider);     
+     
+I will create a full example with a git repo soon but for now, here is how you use the library in your application
+
+    require("lib/ti.parse_mine")({
+      facebookAppId : 'YOUR-FACEBOOK-ID',
+      applicationId : 'PARSE-APP-ID',
+      javascriptkey : 'PARSE-JAVASCRIPT-KEY'
+    });
+
+Full Source code of Parse API Hack:
+   - [Seperate GIST](http://bit.ly/1p5YTwI)
+   - [In this project]()
 
 Enjoy
 
-Aaron K. Saunders
-Clearly Innovative Inc
-www.clearlyinnovative.com
-blog.clearlyinnovative.com
-
+Aaron K. Saunders, Clearly Innovative Inc
+   - www.clearlyinnovative.com
+   -[blog.clearlyinnovative.com](blog.clearlyinnovative.com)
 
 
 Copyright (c) 2012-2014 Aaron K. Saunders
