@@ -36,7 +36,7 @@ I will create a full example with a git repo soon but for now, here is how you u
       javascriptkey : 'PARSE-JAVASCRIPT-KEY'
     });
 
-###Facebook Object
+###Accessing Titanium Facebook Object
 
 If you pass in teh facebook id, the library will instaniate the Titanium Facebook object, which you must also include in your `tiapp.xml`. The Facebook object is available globally through the object `TiFacebook`
 
