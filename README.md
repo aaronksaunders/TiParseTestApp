@@ -36,15 +36,19 @@ I will create a full example with a git repo soon but for now, here is how you u
       javascriptkey : 'PARSE-JAVASCRIPT-KEY'
     });
 
+###Facebook Object
+
+If you pass in teh facebook id, the library will instaniate the Titanium Facebook object, which you must also include in your `tiapp.xml`. The Facebook object is available globally through the object `TiFacebook`
+
 Full Source code of Parse API Hack:
    - [Seperate GIST](http://bit.ly/1p5YTwI)
-   - [In this project]()
+   - [In this project: `lib/ti.parse_mine.js`](https://github.com/aaronksaunders/TiParseTestApp/blob/master/app/lib/ti.parse_mine.js)
 
 Enjoy
 
 Aaron K. Saunders, Clearly Innovative Inc
    - www.clearlyinnovative.com
-   -[blog.clearlyinnovative.com](blog.clearlyinnovative.com)
+   - [blog.clearlyinnovative.com](blog.clearlyinnovative.com)
 
 
 Copyright (c) 2012-2014 Aaron K. Saunders
