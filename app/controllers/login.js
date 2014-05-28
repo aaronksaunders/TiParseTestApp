@@ -148,6 +148,7 @@ function doCreateAcctBtnClicked() {
   });
 };
 
+
 $.open = function(_reset) {
   $.index.open();
 };

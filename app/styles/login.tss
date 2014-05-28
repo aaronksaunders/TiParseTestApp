@@ -44,6 +44,10 @@ TextField: {
 	borderColor: 'gray'	
 },
 
+'Button[platform=android]' : {
+	width: '120dp',
+},
+
 '#loginView' : {
     width:Ti.UI.SIZE,
     height:Ti.UI.SIZE,

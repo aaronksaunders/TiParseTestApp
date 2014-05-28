@@ -16,12 +16,12 @@ exports.savePhoto = function(_options) {
 
   file.save().then(function(_result) {
     // The file has been saved to Parse.
-    Ti.API.debug('_result: ' + JSON.stringify(_result, null, 2));
+    //Ti.API.debug('_result: ' + JSON.stringify(_result, null, 2));
     var testObject = new Parse.Object("TestObject");
     testObject.set("aFile", file);
     return testObject.save();
   }).then(function(_result2) {
-    Ti.API.info('_result2: ' + JSON.stringify(_result2, null, 2));
+   // Ti.API.info('_result2: ' + JSON.stringify(_result2, null, 2));
     deferred.resolve({
       success : true,
       model : _result2

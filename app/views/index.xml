@@ -1,11 +1,11 @@
 <Alloy>
-	<NavigationWindow  platform='ios'>
+	<NavigationWindow   id='mainWindow' platform='ios'>
 		<Window class='container'>
 			<RightNavButton platform='ios'>
 				<Button id='cameraButton'>Camera</Button>
 			</RightNavButton>
-			
-					<!-- need to move this -->
+
+			<!-- need to move this -->
 			<View id = 'indexContainer' layout='vertical'>
 				<Button id='logoutBtn'>Logout</Button>
 				<View id='userInformaton' layout='vertical' top='5dp'>
@@ -18,7 +18,7 @@
 					<Label id='isFB' textAlign='left'/>
 				</View>
 			</View>
-			
+
 			<!-- main list view -->
 			<ListView id='list' defaultItemTemplate='template1'>
 				<Templates>
@@ -44,11 +44,8 @@
 	</NavigationWindow>
 
 	<!-- ANDROID WINDOW -->
-	<Window class='container'   platform='android'>
+	<Window id='mainWindow' class='container'   platform='android'  onOpen='doOpen'>
 
-		<Button id='cameraButton'>Camera</Button>
-		<Button id='logoutBtn'>Logout</Button>
-		
 		<!-- need to move this -->
 		<View id = 'indexContainer' layout='vertical'>
 			<View id='userInformaton' layout='vertical' top='5dp'>
