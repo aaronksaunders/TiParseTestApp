@@ -1,13 +1,13 @@
-".container": {
-	backgroundColor:"white"
+'Window': {
+	backgroundColor:'white'
 },
-"Label": {
+'Label': {
 	width: Ti.UI.SIZE,
 	height: Ti.UI.SIZE,
-	color: "#000"
+	color: '#000'
 },
 // Default Button Style
-"Button" : {
+'Button' : {
   top: '6dp',
   width: '100dp',
   height: '36dp',
@@ -39,4 +39,8 @@
 },
 '.template1[platform=android]' : {
 	height: Ti.UI.SIZE
+},
+
+'ListView[platform=android]' : {
+  separatorColor : '#CCC'
 }
