@@ -1,7 +1,7 @@
 require("ti.parse_mine")({
-  facebookAppId : 'facebookAppId',
-  applicationId : "applicationId",
-  javascriptkey : "javascriptkey"
+  facebookAppId : '',
+  applicationId : "",
+  javascriptkey : ""
 });
 
 /**
@@ -12,6 +12,25 @@ $.logoutBtn.addEventListener('click', function() {
 
   console.log("User Just Logged Out");
   userIsNotLoggedIn();
+});
+
+/**
+ * click camera, take picture */
+$.cameraButton.addEventListener('click', function() {
+
+  require('cameraService').getPhoto().then(function(_response) {
+    return require('photoService').savePhoto({
+      media : _response.media
+    });
+  }).then(function(_saveResult) {
+    Ti.API.debug(JSON.stringify(_saveResult, null, 2));
+    
+    // update list view
+    loadSomeData();
+  }, function(_error) {
+    alert(_error.msg);
+  });
+
 });
 
 /**
@@ -85,8 +104,55 @@ function userIsLoggedIn(_currentUser) {
     $.phone.text = _currentUser.get('phone') || 'No Value: phone number';
     $.isFB.text = _currentUser.get('authData') ? 'Facebook' : 'Not Facebook';
 
+    loadSomeData();
+
   }
 };
+function loadMoreBtnClicked(_event) {
+  alert('not implemented yet');
+}
+
+function loadSomeData() {
+  var testObjects = Parse.Object.extend("TestObject");
+  var query = new Parse.Query(testObjects);
+  query.find({
+    success : function(results) {
+      alert("Successfully retrieved " + results.length + " testObjects.");
+      debugger;
+      createListView(results);
+    },
+    error : function(error) {
+      alert("Error: " + error.code + " " + error.message);
+    }
+  });
+}
+
+function createListView(_data) {
+	
+	// clear the list 
+    $.section.deleteItemsAt(0, $.section.items.length);
+
+  // this is pretty straight forward, assigning the values to the specific
+  // properties in the template we defined above
+  var items = [];
+  for (var i in _data) {
+
+    // add items to an array
+    items.push({
+      template : 'template1', // set the template
+      textLabel : {
+        text : _data[i].get('foo') || "Missing"// assign the values from the data
+      },
+      pic : {
+        image : _data[i].get('aFile').url() // assign the values from the data
+      }
+    });
+  }
+
+  // add the array, items, to the section defined in the view.xml file
+  $.section.setItems(items);
+
+}
 
 // when we start up, create a user and log in
 var currentUser = Parse.User.current();
