@@ -14,4 +14,29 @@
   font:{
     fontSize: '13dp'
   }
+},
+'.container': {
+    backgroundColor: 'white'
+},
+'Label': {
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	color: '#000'
+},
+'.imageThumb' : {
+	width: '50dp',
+	height: '50dp',
+	left: 0
+},
+'.title' : {
+	color: '#000',
+	left: '60dp',
+	top: 0,
+	textAlign: 'left'
+},
+'.template1[platform=ios]' : {
+	height: '56dp'
+},
+'.template1[platform=android]' : {
+	height: Ti.UI.SIZE
 }
