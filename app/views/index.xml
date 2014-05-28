@@ -1,9 +1,11 @@
 <Alloy>
-	<NavigationWindow  platform="ios">
-		<Window class="container">
+	<NavigationWindow  platform='ios'>
+		<Window class='container'>
 			<RightNavButton platform='ios'>
 				<Button id='cameraButton'>Camera</Button>
 			</RightNavButton>
+			
+					<!-- need to move this -->
 			<View id = 'indexContainer' layout='vertical'>
 				<Button id='logoutBtn'>Logout</Button>
 				<View id='userInformaton' layout='vertical' top='5dp'>
@@ -16,6 +18,8 @@
 					<Label id='isFB' textAlign='left'/>
 				</View>
 			</View>
+			
+			<!-- main list view -->
 			<ListView id='list' defaultItemTemplate='template1'>
 				<Templates>
 					<ItemTemplate name='buttonItem' height='Ti.UI.SIZE'>
@@ -38,5 +42,44 @@
 		</Window>
 
 	</NavigationWindow>
+
+	<!-- ANDROID WINDOW -->
+	<Window class='container'   platform='android'>
+
+		<Button id='cameraButton'>Camera</Button>
+		<Button id='logoutBtn'>Logout</Button>
+		
+		<!-- need to move this -->
+		<View id = 'indexContainer' layout='vertical'>
+			<View id='userInformaton' layout='vertical' top='5dp'>
+				<Label id='un' textAlign='left'/>
+				<Label id='fb_un' textAlign='left'/>
+				<Label id='fn' textAlign='left'/>
+				<Label id='ln' textAlign='left'/>
+				<Label id='email' textAlign='left'/>
+				<Label id='phone' textAlign='left'/>
+				<Label id='isFB' textAlign='left'/>
+			</View>
+		</View>
+		<ListView id='list' defaultItemTemplate='template1'>
+			<Templates>
+				<ItemTemplate name='buttonItem' height='Ti.UI.SIZE'>
+					<!-- will use this in the next blog post -->
+					<Button id='loadMoreBtn' onClick='loadMoreBtnClicked'>Load More</Button>
+				</ItemTemplate>
+				<!-- main template for displaying the list items -->
+				<ItemTemplate  id='template1' name='template1'  class='template1'>
+					<ImageView id='pic'  bindId='pic' class='imageThumb'/>
+					<View id='textContainer'>
+						<Label id='textLabel' bindId='textLabel' class='title'/>
+					</View>
+				</ItemTemplate>
+			</Templates>
+			<!-- we only have one section and the items are contstucted using template1 -->
+			<ListSection id='section' >
+				<ListItem template='template1' />
+			</ListSection>
+		</ListView>
+	</Window>
 
 </Alloy>
