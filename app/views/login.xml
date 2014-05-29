@@ -31,32 +31,34 @@
 		</ScrollView>
 	</Window>
 	<Window id="index" class="loginContainer" platform='android' layout='horizontal'>
-		<!-- loginView -->
-		<View id='loginView'>
-			<Label id='loginText'></Label>
-			<View id="lvContainer" >
-				<TextField id="email" class='tfWrapper' />
-				<TextField id="password" class='tfWrapper' />
-				<View class="centerHelper">
-					<Button id="doLoginBtn" title="Login" />
-					<Button id="doFacebookLoginBtn" title="Facebook Connect" />
+		<ScrollView>
+			<!-- loginView -->
+			<View id='loginView'>
+				<Label id='loginText'></Label>
+				<View id="lvContainer" >
+					<TextField id="email" class='tfWrapper' />
+					<TextField id="password" class='tfWrapper' />
+					<View class="centerHelper">
+						<Button id="doLoginBtn" title="Login" />
+						<Button id="doFacebookLoginBtn" title="Facebook Connect" />
+					</View>
 				</View>
 			</View>
-		</View>
-		<!-- createAcctView -->
-		<View id='createAcctView'>
-			<Label id='accountText'></Label>
-			<View id="cavContainer" >
-				<TextField id="acct_fname" class='tfWrapper' />
-				<TextField id="acct_lname" class='tfWrapper' />
-				<TextField id="acct_email" class='tfWrapper' />
-				<TextField id="acct_password" class='tfWrapper' />
-				<TextField id="acct_password_confirmation" class='tfWrapper'/>
-				<View class="centerHelper">
-					<Button id="doCreateAcctBtn" title="Create Account"/>
-					<Button id="cancelCreateAcctBtn" title="Cancel" />
+			<!-- createAcctView -->
+			<View id='createAcctView'>
+				<Label id='accountText'></Label>
+				<View id="cavContainer" >
+					<TextField id="acct_fname" class='tfWrapper' />
+					<TextField id="acct_lname" class='tfWrapper' />
+					<TextField id="acct_email" class='tfWrapper' />
+					<TextField id="acct_password" class='tfWrapper' />
+					<TextField id="acct_password_confirmation" class='tfWrapper'/>
+					<View class="centerHelper">
+						<Button id="doCreateAcctBtn" title="Create Account"/>
+						<Button id="cancelCreateAcctBtn" title="Cancel" />
+					</View>
 				</View>
 			</View>
-		</View>
+		</ScrollView>
 	</Window>
 </Alloy>
