@@ -101,7 +101,6 @@ var TiParse = function(options) {
     },
     init : function() {
       Ti.API.debug("called FB.init()");
-      TiFacebook.appid = '175961759252181';
     },
     login : function() {
       Ti.API.debug("called FB.login()");
