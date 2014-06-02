@@ -33,14 +33,24 @@ if (Titanium !== "undefined") {
 Parse.User._registerAuthenticationProvider(FB.provider);     
 ```
 
-I will create a full example with a git repo soon but for now, here is how you use the library in your application
+###Using your own configuration settings
+
+Modify the `config.json` file to hold all the essential information, see example below
 
 ```JavaScript
-require("lib/ti.parse_mine")({
-  facebookAppId : 'YOUR-FACEBOOK-ID',
-  applicationId : 'PARSE-APP-ID',
-  javascriptkey : 'PARSE-JAVASCRIPT-KEY'
-});
+"global": {
+    "parseOptions": {
+        "facebookAppId": "",
+        "applicationId": "",
+        "javascriptkey": ""
+    }
+},
+```
+Then in your application index file
+
+```JavaScript
+// values are  set in config
+require('ti.parse_mine')(Alloy.CFG.parseOptions);
 ```
 ###Accessing Titanium Facebook Object
 

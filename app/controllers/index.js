@@ -1,8 +1,5 @@
-require('ti.parse_mine')({
-  facebookAppId : '',
-  applicationId : '',
-  javascriptkey : ''
-});
+// values are  set in config
+require('ti.parse_mine')(Alloy.CFG.parseOptions);
 
 /**
  * click logout, logout of parse
