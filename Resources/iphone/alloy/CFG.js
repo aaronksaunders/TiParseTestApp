@@ -1,1 +1,0 @@
-module.exports={"dependencies":{},"parseOptions":{"facebookAppId":"***REMOVED***","applicationId":"***REMOVED***","javascriptkey":"***REMOVED***"}};

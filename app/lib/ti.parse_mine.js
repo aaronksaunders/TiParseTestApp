@@ -187,7 +187,7 @@ Parse.initialize(options.applicationId, options.javascriptkey);
     };
     
     xhr.open(method, url, !0);
-    xhr.setRequestHeader("X-Parse-Application-Id", '***REMOVED***');
+    xhr.setRequestHeader("X-Parse-Application-Id", 'fI7U1dRKkDeZDRKjqOCer70HMLXtpuN7g5yrUDz8');
 	xhr.setRequestHeader("X-Parse-REST-API-Key", "pw8vre2YZE0dPYCWYR1VoT5HxuYHzbR4xRSCHsqm");
 //	xhr.setRequestHeader("Accept","application/json");
     //xhr.setRequestHeader("Content-Type", "text/plain");
