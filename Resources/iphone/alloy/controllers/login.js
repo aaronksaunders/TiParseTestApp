@@ -1,25 +1,114 @@
+function __processArg(obj, key) {
+    var arg = null;
+    if (obj) {
+        arg = obj[key] || null;
+        delete obj[key];
+    }
+    return arg;
+}
+
 function Controller() {
-    function doFacebookLoginBtnClicked() {}
-    function doLoginBtnClicked() {}
+    function getFacebookInfo(_callback) {
+        TiFacebook.requestWithGraphPath("me", {}, "GET", function(e) {
+            if (e.success) {
+                var jsonObject = JSON.parse(e.result);
+                console.log("getFacebookInfo " + e.result);
+                _callback && _callback(jsonObject);
+            } else {
+                console.log(JSON.stringify(e));
+                _callback && _callback({});
+            }
+        });
+    }
+    function doFacebookLoginBtnClicked() {
+        blurTextFields();
+        Parse.FacebookUtils.logIn(null, {
+            success: function(user) {
+                if (user.existed()) {
+                    alert("User logged in through Facebook!");
+                    getFacebookInfo();
+                    console.log(JSON.stringify(user));
+                    args.loginSuccess(user);
+                } else {
+                    alert("User signed up and logged in through Facebook!");
+                    getFacebookInfo(function(_userInformation) {
+                        console.log(JSON.stringify(user));
+                        user.set("fb_username", _userInformation.username);
+                        user.set("first_name", _userInformation.first_name);
+                        user.set("last_name", _userInformation.last_name);
+                        user.set("email", _userInformation.email);
+                        user.save().then(function() {
+                            args.loginSuccess(user);
+                        }, function(error) {
+                            alert("Error updating user object " + error);
+                            args.loginSuccess(user);
+                        });
+                    });
+                }
+            },
+            error: function() {
+                alert("User cancelled the Facebook login or did not fully authorize.");
+            }
+        });
+    }
+    function blurTextFields() {
+        _.each($.lvContainer.children, function(_i) {
+            void 0 !== _i.value && _i.blur();
+        });
+        _.each($.cavContainer.children, function(_i) {
+            void 0 !== _i.value && _i.blur();
+        });
+    }
+    function doLoginBtnClicked() {
+        blurTextFields();
+        Parse.User.logIn($.email.value, $.password.value, {
+            success: function(user) {
+                console.log(JSON.stringify(user));
+                args.loginSuccess(user);
+            },
+            error: function(user, error) {
+                console.log(JSON.stringify(error));
+                alert(error.message);
+            }
+        });
+    }
     function doCreateAcctBtnClicked() {
+        blurTextFields();
         if ($.acct_password.value !== $.acct_password_confirmation.value) {
             alert("Please re-enter information");
             return;
         }
-        ({
+        var params = {
             first_name: $.acct_fname.value,
             last_name: $.acct_lname.value,
             username: $.acct_email.value,
             email: $.acct_email.value,
-            password: $.acct_password.value,
-            password_confirmation: $.acct_password_confirmation.value
+            password: $.acct_password.value
+        };
+        var user = new Parse.User(params);
+        user.signUp(null, {
+            success: function(user) {
+                console.log(JSON.stringify(user));
+                args.loginSuccess(user);
+            },
+            error: function(user, error) {
+                alert("Error: " + error.code + " " + error.message);
+            }
         });
     }
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
     this.__controllerPath = "login";
-    arguments[0] ? arguments[0]["__parentSymbol"] : null;
-    arguments[0] ? arguments[0]["$model"] : null;
-    arguments[0] ? arguments[0]["__itemTemplate"] : null;
+    if (arguments[0]) {
+        {
+            __processArg(arguments[0], "__parentSymbol");
+        }
+        {
+            __processArg(arguments[0], "$model");
+        }
+        {
+            __processArg(arguments[0], "__itemTemplate");
+        }
+    }
     var $ = this;
     var exports = {};
     $.__views.index = Ti.UI.createWindow({
@@ -27,13 +116,13 @@ function Controller() {
         id: "index"
     });
     $.__views.index && $.addTopLevelView($.__views.index);
-    $.__views.__alloyId0 = Ti.UI.createScrollView({
+    $.__views.__alloyId17 = Ti.UI.createScrollView({
         contentHeight: Ti.UI.SIZE,
         contentWidth: Ti.UI.SIZE,
         layout: "vertical",
-        id: "__alloyId0"
+        id: "__alloyId17"
     });
-    $.__views.index.add($.__views.__alloyId0);
+    $.__views.index.add($.__views.__alloyId17);
     $.__views.loginView = Ti.UI.createView({
         width: Ti.UI.SIZE,
         height: Ti.UI.SIZE,
@@ -42,7 +131,7 @@ function Controller() {
         borderColor: "transparent",
         id: "loginView"
     });
-    $.__views.__alloyId0.add($.__views.loginView);
+    $.__views.__alloyId17.add($.__views.loginView);
     $.__views.loginText = Ti.UI.createLabel({
         width: Ti.UI.SIZE,
         height: Ti.UI.SIZE,
@@ -102,14 +191,14 @@ function Controller() {
         id: "password"
     });
     $.__views.lvContainer.add($.__views.password);
-    $.__views.__alloyId1 = Ti.UI.createView({
+    $.__views.__alloyId18 = Ti.UI.createView({
         top: "10dp",
         height: Ti.UI.SIZE,
         width: Ti.UI.SIZE,
         layout: "horizontal",
-        id: "__alloyId1"
+        id: "__alloyId18"
     });
-    $.__views.lvContainer.add($.__views.__alloyId1);
+    $.__views.lvContainer.add($.__views.__alloyId18);
     $.__views.doLoginBtn = Ti.UI.createButton({
         top: "6dp",
         width: "100dp",
@@ -122,7 +211,7 @@ function Controller() {
         id: "doLoginBtn",
         title: "Login"
     });
-    $.__views.__alloyId1.add($.__views.doLoginBtn);
+    $.__views.__alloyId18.add($.__views.doLoginBtn);
     $.__views.doFacebookLoginBtn = Ti.UI.createButton({
         top: "6dp",
         width: "120dp",
@@ -136,16 +225,16 @@ function Controller() {
         id: "doFacebookLoginBtn",
         title: "Facebook Connect"
     });
-    $.__views.__alloyId1.add($.__views.doFacebookLoginBtn);
+    $.__views.__alloyId18.add($.__views.doFacebookLoginBtn);
     $.__views.createAcctView = Ti.UI.createView({
         width: Ti.UI.SIZE,
         height: Ti.UI.SIZE,
-        top: "10dp",
+        top: "20dp",
         layout: "vertical",
         backgroundColor: "transparent",
         id: "createAcctView"
     });
-    $.__views.__alloyId0.add($.__views.createAcctView);
+    $.__views.__alloyId17.add($.__views.createAcctView);
     $.__views.accountText = Ti.UI.createLabel({
         width: Ti.UI.SIZE,
         height: Ti.UI.SIZE,
@@ -264,14 +353,14 @@ function Controller() {
         id: "acct_password_confirmation"
     });
     $.__views.cavContainer.add($.__views.acct_password_confirmation);
-    $.__views.__alloyId2 = Ti.UI.createView({
+    $.__views.__alloyId19 = Ti.UI.createView({
         top: "10dp",
         height: Ti.UI.SIZE,
         width: Ti.UI.SIZE,
         layout: "horizontal",
-        id: "__alloyId2"
+        id: "__alloyId19"
     });
-    $.__views.cavContainer.add($.__views.__alloyId2);
+    $.__views.cavContainer.add($.__views.__alloyId19);
     $.__views.doCreateAcctBtn = Ti.UI.createButton({
         top: "6dp",
         width: "100dp",
@@ -285,7 +374,7 @@ function Controller() {
         id: "doCreateAcctBtn",
         title: "Create Account"
     });
-    $.__views.__alloyId2.add($.__views.doCreateAcctBtn);
+    $.__views.__alloyId19.add($.__views.doCreateAcctBtn);
     $.__views.cancelCreateAcctBtn = Ti.UI.createButton({
         top: "6dp",
         width: "100dp",
@@ -299,11 +388,10 @@ function Controller() {
         id: "cancelCreateAcctBtn",
         title: "Cancel"
     });
-    $.__views.__alloyId2.add($.__views.cancelCreateAcctBtn);
+    $.__views.__alloyId19.add($.__views.cancelCreateAcctBtn);
     exports.destroy = function() {};
     _.extend($, $.__views);
     var args = arguments[0] || {};
-    $.parentController = args.parentController;
     $.doLoginBtn.addEventListener("click", doLoginBtnClicked);
     $.doFacebookLoginBtn.addEventListener("click", doFacebookLoginBtnClicked);
     $.doCreateAcctBtn.addEventListener("click", doCreateAcctBtnClicked);

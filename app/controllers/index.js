@@ -1,8 +1,6 @@
-require('ti.parse_mine')({
-  facebookAppId : '',
-  applicationId : '',
-  javascriptkey : ''
-});
+// values are  set in config
+require('ti.parse_mine')(Alloy.CFG.parseOptions);
+
 
 /**
  * click logout, logout of parse
@@ -72,9 +70,12 @@ function userIsNotLoggedIn() {
       userIsLoggedIn(_user);
 
       // close login window/controller
+      if (OS_IOS) {
       setTimeout(function() {
-        $.loginController.close();
-      }, 300);
+	        $.loginController.close();
+	      }, 300);
+      	
+      }
     }
   });
 
@@ -125,7 +126,6 @@ function loadSomeData() {
   query.find({
     success : function(results) {
       alert('Successfully retrieved ' + results.length + ' testObjects.');
-      debugger;
       createListView(results);
     },
     error : function(error) {

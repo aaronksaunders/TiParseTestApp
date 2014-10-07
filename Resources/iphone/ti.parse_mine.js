@@ -1,8 +1,8 @@
 var TiParse = function(options) {
-    debugger;
     TiFacebook = require("facebook");
     TiFacebook.appid = options.facebookAppId;
-    require("parse-1.2.18");
+    require("parse-1.3.0");
+    Ti.API.info("PARSE 1.3");
     FB = {
         provider: {
             authenticate: function(options) {
@@ -11,14 +11,13 @@ var TiParse = function(options) {
                 TiFacebook.authorize();
                 TiFacebook.addEventListener("login", function(response) {
                     response.success ? options.success && options.success(self, {
-                        id: response.data.id,
+                        id: Alloy.Globals.isAndroid ? JSON.parse(response.data).id : response.data.id,
                         access_token: TiFacebook.accessToken,
                         expiration_date: new Date(TiFacebook.expirationDate).toJSON()
                     }) : options.error && options.error(self, response);
                 });
             },
             restoreAuthentication: function(authData) {
-                debugger;
                 var authResponse;
                 authResponse = authData ? {
                     userID: authData.id,
@@ -41,7 +40,6 @@ var TiParse = function(options) {
         },
         init: function() {
             Ti.API.debug("called FB.init()");
-            TiFacebook.appid = "***REMOVED***";
         },
         login: function() {
             Ti.API.debug("called FB.login()");
@@ -73,31 +71,36 @@ var TiParse = function(options) {
         var promise = new Parse.Promise();
         var handled = !1;
         var xhr = Ti.Network.createHTTPClient({
-            timeout: 5e3
+            timeout: 5e3,
+            autoEncodeUrl: false
         });
-        xhr.onreadystatechange = function() {
-            if (4 === xhr.readyState) {
-                if (handled) return;
-                handled = !0;
-                if (xhr.status >= 200 && 300 > xhr.status) {
-                    var response;
-                    try {
-                        response = JSON.parse(xhr.responseText);
-                    } catch (e) {
-                        promise.reject(e);
-                    }
-                    response && promise.resolve(response, xhr.status, xhr);
-                } else promise.reject(xhr);
-            }
+        xhr.onload = function() {
+            Ti.API.info("xhr.onload invoked, request successful:::");
+            if (handled) return;
+            handled = !0;
+            if (this.status >= 200 && 300 > this.status) {
+                var response;
+                try {
+                    response = eval("(" + this.responseText + ")");
+                } catch (e) {
+                    promise.reject(e);
+                }
+                response && promise.resolve(response, this.status, this);
+            } else promise.reject(this);
+        };
+        xhr.onerror = function() {
+            Ti.API.info("xhr.onerror invoked, request failed, and promise rejected:::");
+            promise.reject(this);
         };
         xhr.open(method, url, !0);
-        xhr.setRequestHeader("Content-Type", "text/plain");
+        xhr.setRequestHeader("X-Parse-Application-Id", "***REMOVED***");
+        xhr.setRequestHeader("X-Parse-REST-API-Key", "pw8vre2YZE0dPYCWYR1VoT5HxuYHzbR4xRSCHsqm");
+        xhr.setRequestHeader("Content-Type", "application/json");
         xhr.send(data);
         return promise._thenRunCallbacks(options);
     };
     TiFacebook.appid && Parse.FacebookUtils.init({
         appId: TiFacebook.appid,
-        channelUrl: "//www.clearlyinnovative.com/channel.html",
         status: false,
         cookie: true,
         xfbml: true

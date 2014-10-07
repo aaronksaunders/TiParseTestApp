@@ -29,15 +29,15 @@
 
 var TiParse = function(options) {
 	
-	debugger;
+	
 	
 	
   TiFacebook = require('facebook');
   TiFacebook.appid = options.facebookAppId;
 
   // UPDATED TO LATEST PARSE LIBRARY version parse-1.2.18
-  require("parse-1.2.18");
-
+  require("parse-1.3.0");
+Ti.API.info("PARSE 1.3");
   //
   // Override the Facebook object on Appcelerator
   //
@@ -56,7 +56,7 @@ var TiParse = function(options) {
           if (response.success) {
             if (options.success) {
               options.success(self, {
-                id : response.data.id,
+                id : Alloy.Globals.isAndroid?JSON.parse(response.data).id:response.data.id,
                 access_token : TiFacebook.accessToken,
                 expiration_date : (new Date(TiFacebook.expirationDate)).toJSON()
               });
@@ -71,7 +71,7 @@ var TiParse = function(options) {
 
       },
       restoreAuthentication : function(authData) {
-        debugger;
+        
         var authResponse;
         if (authData) {
           authResponse = {
@@ -101,7 +101,6 @@ var TiParse = function(options) {
     },
     init : function() {
       Ti.API.debug("called FB.init()");
-      TiFacebook.appid = '***REMOVED***';
     },
     login : function() {
       Ti.API.debug("called FB.login()");
@@ -158,30 +157,46 @@ Parse.initialize(options.applicationId, options.javascriptkey);
     var promise = new Parse.Promise();
     var handled = !1;
     var xhr = Ti.Network.createHTTPClient({
-      timeout : 5e3
+      timeout : 5e3,
+      autoEncodeUrl: false
     });
-    xhr.onreadystatechange = function() {
-      if (4 === xhr.readyState) {
-        if (handled)
-          return;
+    
+    
+  xhr.onload = function() {
+        Ti.API.info("xhr.onload invoked, request successful:::");
+        if (handled) {
+            return;
+        }
         handled = !0;
-        if (xhr.status >= 200 && 300 > xhr.status) {
-          var response;
-          try {
-            response = JSON.parse(xhr.responseText);
-          } catch (e) {
-            promise.reject(e);
-          }
-          response && promise.resolve(response, xhr.status, xhr);
-        } else
-          promise.reject(xhr);
-      }
+        if (this.status >= 200 && 300 > this.status) {
+            var response;
+            try {
+                response = eval('('+this.responseText+')');
+            } catch (e) {
+                promise.reject(e);
+            }
+            response && promise.resolve(response, this.status, this);
+        } else {
+            promise.reject(this);
+        }
     };
+
+    xhr.onerror = function(){
+        Ti.API.info("xhr.onerror invoked, request failed, and promise rejected:::");
+        promise.reject(this);
+    };
+    
     xhr.open(method, url, !0);
-    xhr.setRequestHeader("Content-Type", "text/plain");
+    xhr.setRequestHeader("X-Parse-Application-Id", '***REMOVED***');
+	xhr.setRequestHeader("X-Parse-REST-API-Key", "pw8vre2YZE0dPYCWYR1VoT5HxuYHzbR4xRSCHsqm");
+//	xhr.setRequestHeader("Accept","application/json");
+    //xhr.setRequestHeader("Content-Type", "text/plain");
+    xhr.setRequestHeader("Content-Type", "application/json");
     xhr.send(data);
     return promise._thenRunCallbacks(options);
   };
+  
+  
 
   //
   // IF the appid was set for facebook then initialize facebook. if you are going
@@ -190,7 +205,7 @@ Parse.initialize(options.applicationId, options.javascriptkey);
   if (TiFacebook.appid) {
     Parse.FacebookUtils.init({
       appId : TiFacebook.appid, // Facebook App ID
-      channelUrl : '//www.clearlyinnovative.com/channel.html', // Channel File - USE YOUR DOMAIN HERE !!
+//      channelUrl : '//www.clearlyinnovative.com/channel.html', // Channel File - USE YOUR DOMAIN HERE !!
       status : false, // check login status
       cookie : true, // enable cookies to allow Parse to access the session
       xfbml : true // parse XFBML

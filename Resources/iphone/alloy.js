@@ -19,9 +19,42 @@ function isTabletFallback() {
     return Math.min(Ti.Platform.displayCaps.platformHeight, Ti.Platform.displayCaps.platformWidth) >= 700;
 }
 
+function deepExtend() {
+    var target = arguments[0] || {};
+    var i = 1;
+    var length = arguments.length;
+    var deep = false;
+    var options, name, src, copy, copy_is_array, clone;
+    if ("boolean" == typeof target) {
+        deep = target;
+        target = arguments[1] || {};
+        i = 2;
+    }
+    "object" == typeof target || _.isFunction(target) || (target = {});
+    for (;length > i; i++) {
+        options = arguments[i];
+        if (null != options) {
+            "string" == typeof options && (options = options.split(""));
+            for (name in options) {
+                src = target[name];
+                copy = options[name];
+                if (target === copy) continue;
+                if (deep && copy && (_.isObject(copy) && !_.has(copy, "apiName") || (copy_is_array = _.isArray(copy))) && !copy.colors) {
+                    if (copy_is_array) {
+                        copy_is_array = false;
+                        clone = src && _.isArray(src) ? src : [];
+                    } else clone = _.isDate(copy) ? new Date(copy.valueOf()) : src && _.isObject(src) ? src : {};
+                    target[name] = deepExtend(deep, clone, copy);
+                } else "undefined" != typeof copy ? target[name] = copy : copy.colors && (target[name] = copy);
+            }
+        }
+    }
+    return target;
+}
+
 var _ = require("alloy/underscore")._, Backbone = require("alloy/backbone"), CONST = require("alloy/constants");
 
-exports.version = "1.3.0";
+exports.version = "1.5.1";
 
 exports._ = _;
 
@@ -145,7 +178,7 @@ exports.createStyle = function(controller, opts, defaults) {
     apiName = opts.apiName;
     apiName && -1 === apiName.indexOf(".") && (apiName = addNamespace(apiName));
     var styleArray;
-    styleArray = controller && _.isObject(controller) ? require("alloy/widgets/" + controller.widgetId + "/styles/" + controller.name) : require("alloy/styles/" + controller);
+    styleArray = require(controller && _.isObject(controller) ? "alloy/widgets/" + controller.widgetId + "/styles/" + controller.name : "alloy/styles/" + controller);
     var styleFinal = {};
     var i, len;
     for (i = 0, len = styleArray.length; len > i; i++) {
@@ -158,10 +191,10 @@ exports.createStyle = function(controller, opts, defaults) {
             if (style.key !== apiName) continue;
         }
         if (style.queries && style.queries.formFactor && !Alloy[style.queries.formFactor]) continue;
-        _.extend(styleFinal, style.style);
+        deepExtend(true, styleFinal, style.style);
     }
     var extraStyle = _.omit(opts, [ CONST.CLASS_PROPERTY, CONST.APINAME_PROPERTY ]);
-    _.extend(styleFinal, extraStyle);
+    deepExtend(true, styleFinal, extraStyle);
     styleFinal[CONST.CLASS_PROPERTY] = classes;
     styleFinal[CONST.APINAME_PROPERTY] = apiName;
     MW320_CHECK && delete styleFinal[CONST.APINAME_PROPERTY];

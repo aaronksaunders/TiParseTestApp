@@ -28,3 +28,4 @@ function isIOS7Plus()
 
 Alloy.Globals.iOS7 = isIOS7Plus();
 Alloy.Globals.theTop = (Alloy.Globals.iOS7 ? 20 : 0) + 'dp';
+Alloy.Globals.isAndroid = Ti.Platform.osname === 'android';

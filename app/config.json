@@ -1,5 +1,11 @@
 {
-	"global": {}, 
+	"global": {
+		"parseOptions": {
+		        "facebookAppId": "YOURAPPID",
+		        "applicationId": "YOURapplicationId",
+		        "javascriptkey": "YOURJAVASCRIPTKEY"
+		    }
+		   	}, 
 	"env:development": {}, 
 	"env:test": {}, 
 	"env:production": {}, 

@@ -1,5 +1,6 @@
 'Window': {
-	backgroundColor:'white'
+	backgroundColor:'white',
+	exitOnClose: true
 },
 'Label': {
 	width: Ti.UI.SIZE,

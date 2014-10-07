@@ -41,8 +41,7 @@
     <android xmlns:android="http://schemas.android.com/apk/res/android">
         <tool-api-level>14</tool-api-level>
         <manifest>
-            <application android:hardwareAccelerated="true" android:theme="@style/Theme.MyTheme">
-            </application>
+            <application android:hardwareAccelerated="true" android:theme="@style/Theme.AppCompat.Light"/>
             <!-- Camera Access -->
             <uses-permission android:name="android.permission.CAMERA"/>
             <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
@@ -67,6 +66,7 @@
         <module platform="android">facebook</module>
         <module platform="iphone">facebook</module>
     </modules>
+    <property name="ti.facebook.appid">YOURAPPID</property>
     <deployment-targets>
         <target device="android">true</target>
         <target device="blackberry">false</target>
@@ -75,7 +75,7 @@
         <target device="mobileweb">false</target>
         <target device="tizen">false</target>
     </deployment-targets>
-    <sdk-version>3.2.3.GA</sdk-version>
+    <sdk-version>3.4.0.GA</sdk-version>
     <plugins>
         <plugin version="1.0">ti.alloy</plugin>
     </plugins>
